@@ -8,6 +8,9 @@
     constructor() {
       this.el = document.createElement('li');
       this.el.classList.add('pressed');
+      this.el.addEventListener('click', () => {
+        this.check();
+      });
     }
 
     /**
@@ -24,6 +27,14 @@
     activate(num) {
       this.el.classList.remove('pressed');
       this.el.textContent = num;
+    }
+
+    
+    check() {
+      if (currentNum === parseInt(this.el.textContent, 10)) {
+        this.el.classList.add('pressed');
+        currentNum++;
+      }
     }
   }
 
@@ -74,6 +85,8 @@
    * @type Board
    */
   const board = new Board();
+
+  let currentNum = 0;
 
   /**
    * ボタン要素
