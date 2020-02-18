@@ -6,12 +6,21 @@ body {
   font-weight: bold;
 }
 
+/***********************
+* container
+***********************/
+
 #container {
   /* 50px * 2 + 10px * 2 */
   width: 120px;
   margin: 16px auto;
   background: pink;
 }
+
+
+/***********************
+* board
+***********************/
 
 #board {
   list-style: none;
