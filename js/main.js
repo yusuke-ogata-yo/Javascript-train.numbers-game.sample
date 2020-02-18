@@ -29,8 +29,11 @@
       this.el.textContent = num;
     }
 
-    
+    /**
+     * 押されたボタンが現在押すべきボタンかどうかチェックする
+     */
     check() {
+      // perseInt(strign, 基数)
       if (currentNum === parseInt(this.el.textContent, 10)) {
         this.el.classList.add('pressed');
         currentNum++;
@@ -86,6 +89,10 @@
    */
   const board = new Board();
 
+  /**
+   * 現在押すべきボタンの番号を保持
+   * @type number
+   */
   let currentNum = 0;
 
   /**
