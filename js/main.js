@@ -4,8 +4,10 @@
   class Panel {
     /**
      * コンストラクタ
+     * @param {Game} game
      */
-    constructor() {
+    constructor(game) {
+      this.game = game;
       this.el = document.createElement('li');
       this.el.classList.add('pressed');
       this.el.addEventListener('click', () => {
@@ -34,13 +36,13 @@
      */
     check() {
       // perseInt(strign, 基数)
-      if (currentNum === parseInt(this.el.textContent, 10)) {
+      if (this.game.getCurrentNum() === parseInt(this.el.textContent, 10)) {
         this.el.classList.add('pressed');
-        currentNum++;
+        this.game.addCurrentNum();
 
         // 数値パネルが全て押し込まれたらタイマーを止める
-        if (currentNum === 4) {
-          clearTimeout(timeoutId);
+        if (this.game.getCurrentNum() === 4) {
+          clearTimeout(this.game.getTimeoutId());
         }
       }
     }
@@ -49,8 +51,10 @@
   class Board {
     /**
      * コンストラクタ。数値パネルの生成、
+     * @param {Game} game
      */
-    constructor() {
+    constructor(game) {
+      this.game = game;
       /**
        * 数値パネルの配列
        * @type Panel[]
@@ -58,7 +62,7 @@
       this.panels = [];
       // 数値パネルの生成
       for (let i = 0; i < 4; i++) {
-        this.panels.push(new Panel());
+        this.panels.push(new Panel(this.game));
       }
       this.setup();
     }
@@ -84,63 +88,105 @@
       this.panels.forEach(panel => {
         const num = nums.splice(Math.floor(Math.random() * nums.length), 1)[0];
         panel.activate(num);
-      })
+      });
     }
   }
 
-  /**
-   * タイマーを開始する
-   */
-  function runTimer() {
-    /**
-     * タイマー要素の取得
-     * @type HTMLElement
-     */
-    const timer = document.getElementById('timer');
-    timer.textContent = ((Date.now() - startTime) / 1000).toFixed(2);
-    timeoutId = setTimeout(() => {
-      runTimer();
-    }, 10);
-  }
-
-
-  /**
-   * board要素
-   * @type Board
-   */
-  const board = new Board();
-
-  /**
-   * 現在押すべきボタンの番号を保持
-   * @type number
-   */
-  let currentNum;
-
-  /**
-   * タイマーを開始した時刻
-   * @type number
-   */
-  let startTime;
-
-  /**
-   * タイムアウトid
-   * @type number
-   */
-  let timeoutId;
-
-  /**
-   * ボタン要素
-   * @type HTMLElement
-   */
-  const btn = document.getElementById('btn');
-  btn.addEventListener('click', () => {
-    if (typeof timeoutId !== 'undefined') {
-      clearTimeout(timeoutId);
+  
+  
+  class Game {
+    constructor() {
+      /**
+       * board要素
+       * @type Board
+       */
+      this.board = new Board(this);
+      
+      /**
+       * 現在押すべきボタンの番号を保持
+       * @type number
+       */
+      this.currentNum = undefined;
+      
+      /**
+       * タイマーを開始した時刻
+       * @type number
+       */
+      this.startTime = undefined;
+      
+      /**
+       * タイムアウトid
+       * @type number
+       */
+      this.timeoutId = undefined;
+      
+      /**
+       * ボタン要素
+       * @type HTMLElement
+       */
+      const btn = document.getElementById('btn');
+      btn.addEventListener('click', () => {
+        this.start();
+      });
     }
-    currentNum = 0;
-    board.activate();
+      
+      /**
+       * タイマーの初期化、ゲームの初期化
+       */
+      start() {
+        if (typeof this.timeoutId !== 'undefined') {
+          clearTimeout(this.timeoutId);
+        }
+        this.currentNum = 0;
+        this.board.activate();
+        
+        this.startTime = Date.now();
+        this.runTimer();
+      }
 
-    startTime = Date.now();
-    runTimer();
-  });
+      /**
+       * タイマーを開始する
+       */
+      runTimer() {
+        /**
+         * タイマー要素の取得
+         * @type HTMLElement
+         */
+        const timer = document.getElementById('timer');
+        timer.textContent = ((Date.now() - this.startTime) / 1000).toFixed(2);
+        this.timeoutId = setTimeout(() => {
+          this.runTimer();
+        }, 10);
+      }
+
+      /**
+       * 現在の押すべき数値パネル番号をインクリメントする
+       */
+      addCurrentNum() {
+        this.currentNum++;
+      }
+
+      /**
+       * 現在の押すべき数値パネル番号を取得する
+       * @return number
+       */
+      getCurrentNum() {
+        return this.currentNum;
+      }
+
+      /**
+       * タイムアウトIDを取得する
+       * @return number
+       */
+      getTimeoutId() {
+        return this.timeoutId;
+      }
+    }
+
+
+  /**
+   * ゲームクラスを生成
+   * @type Game
+   */
+  new Game();
 }
