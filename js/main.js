@@ -38,6 +38,7 @@
         this.el.classList.add('pressed');
         currentNum++;
 
+        // 数値パネルが全て押し込まれたらタイマーを止める
         if (currentNum === 4) {
           clearTimeout(timeoutId);
         }
@@ -87,7 +88,14 @@
     }
   }
 
+  /**
+   * タイマーを開始する
+   */
   function runTimer() {
+    /**
+     * タイマー要素の取得
+     * @type HTMLElement
+     */
     const timer = document.getElementById('timer');
     timer.textContent = ((Date.now() - startTime) / 1000).toFixed(2);
     timeoutId = setTimeout(() => {
@@ -108,9 +116,16 @@
    */
   let currentNum = 0;
 
-
+  /**
+   * タイマーを開始した時刻
+   * @type number
+   */
   let startTime;
 
+  /**
+   * タイムアウトid
+   * @type number
+   */
   let timeoutId;
 
   /**
