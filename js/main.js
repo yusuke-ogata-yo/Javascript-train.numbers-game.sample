@@ -58,8 +58,13 @@
      * 全ての数値ボックスを押せるように設定する
      */
     activate() {
+      // 数値ボックスに振る番号（決め打ち）
+      const nums = [0, 1, 2, 3];
+
+      // 数値ボックスに重複なくランダムに番号を振る
       this.panels.forEach(panel => {
-        panel.activate(0);
+        const num = nums.splice(Math.floor(Math.random() * nums.length), 1)[0];
+        panel.activate(num);
       })
     }
   }
