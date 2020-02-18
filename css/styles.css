@@ -55,3 +55,10 @@ body {
   font-size: 20px;
   text-align: right;
 }
+
+#btn {
+  cursor: pointer;
+  user-select: none;
+  background-color: #f44336;
+  padding: 8px;
+}
