@@ -159,14 +159,25 @@
         }, 10);
       }
 
+      /**
+       * 現在の押すべき数値パネル番号をインクリメントする
+       */
       addCurrentNum() {
         this.currentNum++;
       }
 
+      /**
+       * 現在の押すべき数値パネル番号を取得する
+       * @return number
+       */
       getCurrentNum() {
         return this.currentNum;
       }
 
+      /**
+       * タイムアウトIDを取得する
+       * @return number
+       */
       getTimeoutId() {
         return this.timeoutId;
       }
