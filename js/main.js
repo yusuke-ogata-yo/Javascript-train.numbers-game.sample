@@ -136,11 +136,15 @@
       this.setup();
     }
     
+    /**
+     * 画面表示にて、レベルに応じて横幅を計算して表示する
+     */
     setup() {
       const container = document.getElementById('container');
       const PANEL_WIDTH = 50;
       const BOARD_PADDING = 10;
       /* 50px * 2 + 10px * 2 */
+      // style.width には ’px’をつけて文字列として値を渡す
       container.style.width = PANEL_WIDTH * this.level + BOARD_PADDING * 2 + 'px';
     }
     /**
