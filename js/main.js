@@ -4,6 +4,7 @@
   class Panel {
     /**
      * コンストラクタ
+     * @param {Game} game
      */
     constructor(game) {
       this.game = game;
@@ -35,13 +36,13 @@
      */
     check() {
       // perseInt(strign, 基数)
-      if (currentNum === parseInt(this.el.textContent, 10)) {
+      if (this.game.getCurrentNum() === parseInt(this.el.textContent, 10)) {
         this.el.classList.add('pressed');
-        currentNum++;
+        this.game.addCurrentNum();
 
         // 数値パネルが全て押し込まれたらタイマーを止める
-        if (currentNum === 4) {
-          clearTimeout(timeoutId);
+        if (this.game.getCurrentNum() === 4) {
+          clearTimeout(this.game.getTimeoutId());
         }
       }
     }
@@ -50,6 +51,7 @@
   class Board {
     /**
      * コンストラクタ。数値パネルの生成、
+     * @param {Game} game
      */
     constructor(game) {
       this.game = game;
@@ -86,7 +88,7 @@
       this.panels.forEach(panel => {
         const num = nums.splice(Math.floor(Math.random() * nums.length), 1)[0];
         panel.activate(num);
-      })
+      });
     }
   }
 
@@ -110,7 +112,7 @@
        * タイマーを開始した時刻
        * @type number
        */
-      this.this.startTime = undefined;
+      this.startTime = undefined;
       
       /**
        * タイムアウトid
@@ -126,11 +128,12 @@
       btn.addEventListener('click', () => {
         this.start();
       });
+    }
       
       /**
        * タイマーの初期化、ゲームの初期化
        */
-      start() {        
+      start() {
         if (typeof this.timeoutId !== 'undefined') {
           clearTimeout(this.timeoutId);
         }
@@ -155,12 +158,24 @@
           this.runTimer();
         }, 10);
       }
+
+      addCurrentNum() {
+        this.currentNum++;
+      }
+
+      getCurrentNum() {
+        return this.currentNum;
+      }
+
+      getTimeoutId() {
+        return this.timeoutId;
+      }
     }
-  }
+
 
   /**
    * ゲームクラスを生成
    * @type Game
    */
-  const game = new Game();
+  new Game();
 }
