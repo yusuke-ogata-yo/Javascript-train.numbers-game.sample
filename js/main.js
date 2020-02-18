@@ -16,6 +16,11 @@
     getEl() {
       return this.el
     }
+
+    activate(num) {
+      this.el.classList.remove('pressed');
+      this.el.textContent = num;
+    }
   }
 
   class Board {
@@ -44,6 +49,12 @@
         board.appendChild(panel.getEl()); // カプセル化、直接、他のクラスの要素にアクセスさせないようにする
       });
     }
+
+    activate() {
+      this.panels.forEach(panel => {
+        panel.activate(0);
+      })
+    }
   }
 
   /**
@@ -51,4 +62,9 @@
    * @type Board
    */
   const board = new Board();
+
+  const btn = document.getElementById('btn');
+  btn.addEventListener('click', () => {
+    board.activate();
+  });
 }
