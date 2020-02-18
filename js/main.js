@@ -88,59 +88,70 @@
     }
   }
 
-  /**
-   * タイマーを開始する
-   */
-  function runTimer() {
-    /**
-     * タイマー要素の取得
-     * @type HTMLElement
-     */
-    const timer = document.getElementById('timer');
-    timer.textContent = ((Date.now() - startTime) / 1000).toFixed(2);
-    timeoutId = setTimeout(() => {
-      runTimer();
-    }, 10);
+  
+  
+  class Game {
+    constructor() {
+      /**
+       * board要素
+       * @type Board
+       */
+      this.board = new Board();
+      
+      /**
+       * 現在押すべきボタンの番号を保持
+       * @type number
+       */
+      this.currentNum = undefined;
+      
+      /**
+       * タイマーを開始した時刻
+       * @type number
+       */
+      this.this.startTime = undefined;
+      
+      /**
+       * タイムアウトid
+       * @type number
+       */
+      this.timeoutId = undefined;
+      
+      /**
+       * ボタン要素
+       * @type HTMLElement
+       */
+      const btn = document.getElementById('btn');
+      btn.addEventListener('click', () => {
+        this.start();
+      });
+      
+      start() {        
+        if (typeof this.timeoutId !== 'undefined') {
+          clearTimeout(this.timeoutId);
+        }
+        this.currentNum = 0;
+        this.board.activate();
+        
+        this.startTime = Date.now();
+        this.runTimer();
+      }
+
+      /**
+       * タイマーを開始する
+       */
+      runTimer() {
+        /**
+         * タイマー要素の取得
+         * @type HTMLElement
+         */
+        const timer = document.getElementById('timer');
+        timer.textContent = ((Date.now() - this.startTime) / 1000).toFixed(2);
+        this.timeoutId = setTimeout(() => {
+          this.runTimer();
+        }, 10);
+      }
+    }
   }
 
-
-  /**
-   * board要素
-   * @type Board
-   */
-  const board = new Board();
-
-  /**
-   * 現在押すべきボタンの番号を保持
-   * @type number
-   */
-  let currentNum;
-
-  /**
-   * タイマーを開始した時刻
-   * @type number
-   */
-  let startTime;
-
-  /**
-   * タイムアウトid
-   * @type number
-   */
-  let timeoutId;
-
-  /**
-   * ボタン要素
-   * @type HTMLElement
-   */
-  const btn = document.getElementById('btn');
-  btn.addEventListener('click', () => {
-    if (typeof timeoutId !== 'undefined') {
-      clearTimeout(timeoutId);
-    }
-    currentNum = 0;
-    board.activate();
-
-    startTime = Date.now();
-    runTimer();
-  });
+  const game = new Game();
 }
