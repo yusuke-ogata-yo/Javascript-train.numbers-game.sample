@@ -132,69 +132,82 @@
       btn.addEventListener('click', () => {
         this.start();
       });
+
+      this.setup();
     }
+    
+    setup() {
+      const container = document.getElementById('container');
+      const PANEL_WIDTH = 50;
+      const BOARD_PADDING = 10;
+      /* 50px * 2 + 10px * 2 */
+      container.style.width = PANEL_WIDTH * this.level + BOARD_PADDING * 2 + 'px';
+    }
+    /**
+     * タイマーの初期化、ゲームの初期化
+     */
+    start() {
+      if (typeof this.timeoutId !== 'undefined') {
+        clearTimeout(this.timeoutId);
+      }
+      this.currentNum = 0;
+      this.board.activate();
       
-      /**
-       * タイマーの初期化、ゲームの初期化
-       */
-      start() {
-        if (typeof this.timeoutId !== 'undefined') {
-          clearTimeout(this.timeoutId);
-        }
-        this.currentNum = 0;
-        this.board.activate();
-        
-        this.startTime = Date.now();
-        this.runTimer();
-      }
-
-      /**
-       * タイマーを開始する
-       */
-      runTimer() {
-        /**
-         * タイマー要素の取得
-         * @type HTMLElement
-         */
-        const timer = document.getElementById('timer');
-        timer.textContent = ((Date.now() - this.startTime) / 1000).toFixed(2);
-        this.timeoutId = setTimeout(() => {
-          this.runTimer();
-        }, 10);
-      }
-
-      /**
-       * 現在の押すべき数値パネル番号をインクリメントする
-       */
-      addCurrentNum() {
-        this.currentNum++;
-      }
-
-      /**
-       * 現在の押すべき数値パネル番号を取得する
-       * @return number
-       */
-      getCurrentNum() {
-        return this.currentNum;
-      }
-
-      /**
-       * タイムアウトIDを取得する
-       * @return number
-       */
-      getTimeoutId() {
-        return this.timeoutId;
-      }
-
-      getLevel() {
-        return this.level;
-      }
+      this.startTime = Date.now();
+      this.runTimer();
     }
+
+    /**
+     * タイマーを開始する
+     */
+    runTimer() {
+      /**
+       * タイマー要素の取得
+       * @type HTMLElement
+       */
+      const timer = document.getElementById('timer');
+      timer.textContent = ((Date.now() - this.startTime) / 1000).toFixed(2);
+      this.timeoutId = setTimeout(() => {
+        this.runTimer();
+      }, 10);
+    }
+
+    /**
+     * 現在の押すべき数値パネル番号をインクリメントする
+     */
+    addCurrentNum() {
+      this.currentNum++;
+    }
+
+    /**
+     * 現在の押すべき数値パネル番号を取得する
+     * @return number
+     */
+    getCurrentNum() {
+      return this.currentNum;
+    }
+
+    /**
+     * タイムアウトIDを取得する
+     * @return number
+     */
+    getTimeoutId() {
+      return this.timeoutId;
+    }
+
+    /**
+     * ゲームのレベルを取得する
+     * @return number
+     */
+    getLevel() {
+      return this.level;
+    }
+  }
 
 
   /**
    * ゲームクラスを生成
    * @type Game
    */
-  new Game(2);
+  new Game(5);
 }
