@@ -41,7 +41,7 @@
         this.game.addCurrentNum();
 
         // 数値パネルが全て押し込まれたらタイマーを止める
-        if (this.game.getCurrentNum() === 4) {
+        if (this.game.getCurrentNum() === this.game.getLevel() ** 2) {
           clearTimeout(this.game.getTimeoutId());
         }
       }
@@ -61,7 +61,7 @@
        */
       this.panels = [];
       // 数値パネルの生成
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < this.game.getLevel() ** 2; i++) {
         this.panels.push(new Panel(this.game));
       }
       this.setup();
@@ -82,7 +82,10 @@
      */
     activate() {
       // 数値ボックスに振る番号（決め打ち）
-      const nums = [0, 1, 2, 3];
+      const nums = [];
+      for (let i = 0; i < this.game.getLevel() ** 2; i++) {
+        nums.push(i);
+      }
 
       // 数値ボックスに重複なくランダムに番号を振る
       this.panels.forEach(panel => {
@@ -95,7 +98,8 @@
   
   
   class Game {
-    constructor() {
+    constructor(level) {
+      this.level = level;
       /**
        * board要素
        * @type Board
@@ -181,6 +185,10 @@
       getTimeoutId() {
         return this.timeoutId;
       }
+
+      getLevel() {
+        return this.level;
+      }
     }
 
 
@@ -188,5 +196,5 @@
    * ゲームクラスを生成
    * @type Game
    */
-  new Game();
+  new Game(2);
 }
