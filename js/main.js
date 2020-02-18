@@ -114,7 +114,7 @@
    * 現在押すべきボタンの番号を保持
    * @type number
    */
-  let currentNum = 0;
+  let currentNum;
 
   /**
    * タイマーを開始した時刻
@@ -137,6 +137,7 @@
     if (typeof timeoutId !== 'undefined') {
       clearTimeout(timeoutId);
     }
+    currentNum = 0;
     board.activate();
 
     startTime = Date.now();
