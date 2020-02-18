@@ -29,6 +29,14 @@ body {
   border-radius: 4px;
 }
 
+#board li {
+  background-color: #00aaff;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  cursor: pointer;
+}
+
 #timer {
   margin-bottom: 8px;
   font-size: 20px;
