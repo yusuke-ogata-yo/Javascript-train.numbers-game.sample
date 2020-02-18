@@ -134,6 +134,9 @@
    */
   const btn = document.getElementById('btn');
   btn.addEventListener('click', () => {
+    if (typeof timeoutId !== 'undefined') {
+      clearTimeout(timeoutId);
+    }
     board.activate();
 
     startTime = Date.now();
