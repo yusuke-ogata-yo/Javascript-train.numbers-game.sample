@@ -16,6 +16,15 @@
     getEl() {
       return this.el
     }
+
+    /**
+     * 数値ボックスに表示する番号を引数にとり、押せるように表示を変更する
+     * @param {number} num 
+     */
+    activate(num) {
+      this.el.classList.remove('pressed');
+      this.el.textContent = num;
+    }
   }
 
   class Board {
@@ -44,6 +53,15 @@
         board.appendChild(panel.getEl()); // カプセル化、直接、他のクラスの要素にアクセスさせないようにする
       });
     }
+
+    /**
+     * 全ての数値ボックスを押せるように設定する
+     */
+    activate() {
+      this.panels.forEach(panel => {
+        panel.activate(0);
+      })
+    }
   }
 
   /**
@@ -51,4 +69,13 @@
    * @type Board
    */
   const board = new Board();
+
+  /**
+   * ボタン要素
+   * @type HTMLElement
+   */
+  const btn = document.getElementById('btn');
+  btn.addEventListener('click', () => {
+    board.activate();
+  });
 }
