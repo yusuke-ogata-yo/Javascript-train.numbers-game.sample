@@ -6,6 +6,10 @@
       this.el = document.createElement('li');
       this.el.classList.add('pressed');
     }
+
+    getEl() {
+      return this.el
+    }
   }
 
   class Board {
@@ -14,6 +18,14 @@
       for (let i = 0; i < 4; i++) {
         this.panels.push(new Panel());
       }
+      this.setup();
+    }
+
+    setup() {
+      const board = document.getElementById('board');
+      this.panels.forEach(panel => {
+        board.appendChild(panel.getEl()); // カプセル化、直接、他のクラスの要素にアクセスさせないようにする
+      });
     }
   }
 
