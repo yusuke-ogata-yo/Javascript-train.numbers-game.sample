@@ -5,7 +5,8 @@
     /**
      * コンストラクタ
      */
-    constructor() {
+    constructor(game) {
+      this.game = game;
       this.el = document.createElement('li');
       this.el.classList.add('pressed');
       this.el.addEventListener('click', () => {
@@ -50,7 +51,8 @@
     /**
      * コンストラクタ。数値パネルの生成、
      */
-    constructor() {
+    constructor(game) {
+      this.game = game;
       /**
        * 数値パネルの配列
        * @type Panel[]
@@ -58,7 +60,7 @@
       this.panels = [];
       // 数値パネルの生成
       for (let i = 0; i < 4; i++) {
-        this.panels.push(new Panel());
+        this.panels.push(new Panel(this.game));
       }
       this.setup();
     }
@@ -96,7 +98,7 @@
        * board要素
        * @type Board
        */
-      this.board = new Board();
+      this.board = new Board(this);
       
       /**
        * 現在押すべきボタンの番号を保持
@@ -125,6 +127,9 @@
         this.start();
       });
       
+      /**
+       * タイマーの初期化、ゲームの初期化
+       */
       start() {        
         if (typeof this.timeoutId !== 'undefined') {
           clearTimeout(this.timeoutId);
@@ -153,5 +158,9 @@
     }
   }
 
+  /**
+   * ゲームクラスを生成
+   * @type Game
+   */
   const game = new Game();
 }
